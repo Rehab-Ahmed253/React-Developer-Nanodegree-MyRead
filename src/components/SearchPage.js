@@ -37,7 +37,11 @@ const SearchPage = () => {
         <ol className="books-grid">
           {searchBooks.map((book) => (
             <li key={book.id}>
-              <BookTile book={book} />
+              <BookTile
+                book={book}
+                books={searchBooks}
+                setBooks={setSearchBooks}
+              />
             </li>
           ))}
         </ol>

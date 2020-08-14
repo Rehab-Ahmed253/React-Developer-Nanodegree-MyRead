@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from "react";
 import * as BooksAPI from "../BooksAPI";
 
-const BookTile = ({ book }) => {
+const BookTile = ({ book, books, setBooks }) => {
   const [value, setValue] = useState(book.shelf || "none");
+  const url = book.imageLinks ? book.imageLinks.thumbnail : null;
 
   useEffect(() => {
+    const temp = { ...book, shelf: value };
+    setBooks(books.map((b) => (b.id === book.id ? temp : b)));
     BooksAPI.update(book, value);
-  }, [book, value]);
+  }, [value]);
 
-  const handleChange = (event) => {
-    if (event.target.value !== value) {
-      setValue(event.target.value);
-    }
-  };
-  if (!book.hasOwnProperty("imageLinks")) {
-    return null;
-  }
   return (
     <div className="book">
       <div className="book-top">
@@ -24,11 +19,17 @@ const BookTile = ({ book }) => {
           style={{
             width: 128,
             height: 193,
-            backgroundImage: `url(${book.imageLinks.thumbnail})`,
+            backgroundImage: `url(${url}`,
           }}
         />
         <div className="book-shelf-changer">
-          <select value={value} selected={value} onChange={handleChange}>
+          <select
+            value={value}
+            selected={value}
+            onChange={(e) => {
+              setValue(e.target.value);
+            }}
+          >
             <option value="move" disabled>
               Move to...
             </option>

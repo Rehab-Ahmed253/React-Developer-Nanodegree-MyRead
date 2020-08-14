@@ -1,19 +1,10 @@
-import React, { useState, useEffect } from "react";
-import * as BooksAPI from "./BooksAPI";
+import React from "react";
 import "./App.css";
 import SearchPage from "./components/SearchPage";
 import Home from "./components/Home";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 
 const BooksApp = () => {
-  const [books, setBooks] = useState([]);
-
-  useEffect(() => {
-    BooksAPI.getAll().then((result) => {
-      setBooks(result);
-    });
-  });
-
   return (
     <div className="app">
       <BrowserRouter>
@@ -22,7 +13,7 @@ const BooksApp = () => {
             <SearchPage />
           </Route>
           <Route path="/">
-            <Home books={books} />
+            <Home />
           </Route>
         </Switch>
       </BrowserRouter>
