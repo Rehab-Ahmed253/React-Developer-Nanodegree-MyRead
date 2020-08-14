@@ -21,7 +21,7 @@ The search page has a text input that may be used to find books. As the value of
 Once Node is installed, navigate to the directory where you want to store the app
 
 ```
-git clone https://github.com/Rehab-Ahmed253/React-Developer-Nanodegree/tree/master/myread
+git clone https://github.com/Rehab-Ahmed253/React-Developer-Nanodegree-MyRead
 npm install
 ```
 
