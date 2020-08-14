@@ -1,7 +1,12 @@
 import React from "react";
 import BookTile from "./BookTile";
+import * as BooksAPI from "../BooksAPI";
 
-const BookShelf = ({ books, setBooks, shelfName, shelf }) => {
+const BookShelf = ({ books, shelfName, shelf }) => {
+  const handleValueChange = (e, book) => {
+    BooksAPI.update(book, e.target.value);
+  };
+
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{shelfName}</h2>
@@ -11,7 +16,7 @@ const BookShelf = ({ books, setBooks, shelfName, shelf }) => {
             .filter((book) => book.shelf === shelf)
             .map((book) => (
               <li key={book.id}>
-                <BookTile books={books} setBooks={setBooks} book={book} />
+                <BookTile book={book} handleValueChange={handleValueChange} />
               </li>
             ))}
         </ol>

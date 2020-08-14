@@ -1,15 +1,8 @@
-import React, { useState, useEffect } from "react";
-import * as BooksAPI from "../BooksAPI";
+import React from "react";
 
-const BookTile = ({ book, books, setBooks }) => {
-  const [value, setValue] = useState(book.shelf || "none");
+const BookTile = ({ book, handleValueChange }) => {
+  const value = book.shelf || "none";
   const url = book.imageLinks ? book.imageLinks.thumbnail : null;
-
-  useEffect(() => {
-    const temp = { ...book, shelf: value };
-    setBooks(books.map((b) => (b.id === book.id ? temp : b)));
-    BooksAPI.update(book, value);
-  }, [value]);
 
   return (
     <div className="book">
@@ -27,7 +20,7 @@ const BookTile = ({ book, books, setBooks }) => {
             value={value}
             selected={value}
             onChange={(e) => {
-              setValue(e.target.value);
+              handleValueChange(e, book);
             }}
           >
             <option value="move" disabled>

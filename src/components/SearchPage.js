@@ -3,7 +3,7 @@ import * as BooksAPI from "../BooksAPI";
 import BookTile from "./BookTile";
 import { Link } from "react-router-dom";
 
-const SearchPage = () => {
+const SearchPage = ({ handleValueChange, books }) => {
   const [query, setQuery] = useState("");
   const [searchBooks, setSearchBooks] = useState([]);
 
@@ -12,11 +12,21 @@ const SearchPage = () => {
       SearchTerms.filter((term) => term.toLowerCase() === query.toLowerCase())
         .length > 0
     ) {
-      BooksAPI.search(query, 20).then((result) => {
-        setSearchBooks(result);
-      });
-    }
-  }, [query]);
+      BooksAPI.search(query, 20)
+        .then((result) => {
+          setSearchBooks(result);
+        })
+        .catch(() => setSearchBooks([]));
+    } else setSearchBooks([]);
+  }, [query]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  searchBooks.forEach((book) => {
+    books.forEach((myBook) => {
+      if (myBook.id === book.id) {
+        book.shelf = myBook.shelf;
+      }
+    });
+  });
 
   return (
     <div className="search-books">
@@ -37,11 +47,7 @@ const SearchPage = () => {
         <ol className="books-grid">
           {searchBooks.map((book) => (
             <li key={book.id}>
-              <BookTile
-                book={book}
-                books={searchBooks}
-                setBooks={setSearchBooks}
-              />
+              <BookTile book={book} handleValueChange={handleValueChange} />
             </li>
           ))}
         </ol>
